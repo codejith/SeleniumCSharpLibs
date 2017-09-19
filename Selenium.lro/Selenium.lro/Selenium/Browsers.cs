@@ -49,6 +49,7 @@ namespace Selenium.lro.Selenium
         public static TimeSpan defaultJavaScriptLoadTime = TimeSpan.FromSeconds(60);
         public static TimeSpan defaultPageReadyWait = TimeSpan.FromSeconds(15);
 
+
         public static Browser GetBrowser(string inBrowserName)
         {
             inBrowserName = inBrowserName.Trim();
@@ -58,6 +59,24 @@ namespace Selenium.lro.Selenium
             }
 
             return outDetctedBrowser;
+        }
+
+        public static IWebDriver CreateNewBrowserInstance(ITestConfiguration configuration)
+        {
+            var capabilities = new DesiredCapabilities();
+            IWebDriver outDriver;
+
+            switch(configuration.browser)
+            {
+                case Browser.Chrome:
+                    configuration.TestContext?.WriteLine("Creating google chrome instance");
+                    var newBroswerInstance = new ChromeOptions();
+                    newBroswerInstance.AddArgument("-incognito");
+                    newBroswerInstance.AddArgument("--start-maximized");
+                    outDriver = new ChromeDriver();
+                    break;
+            }
+
         }
     }
 }
